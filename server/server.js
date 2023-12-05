@@ -44,11 +44,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(errorHandler);
 app.use(logMiddleware);
-/* app.use(csrf({ cookie: true }));
+app.use(csrf({ cookie: true }));
 app.get('/get-csrf-token', (req, res) => {
   console.log(req.csrfToken())
   res.json({ csrfToken: req.csrfToken() });
-}); */
+});
 app.use("/user", userController);
 app.use("/todos", verifyToken, todoController);
 app.listen(port, () => {
