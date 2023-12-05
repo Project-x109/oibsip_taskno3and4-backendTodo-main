@@ -27,13 +27,14 @@ app.use(
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
+      sameSite: "None",
     },
   })
 );
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000","http://192.168.56.1:3000","https://main--warm-pudding-613ffe.netlify.app"],
+    origin: ["http://localhost:3000", "http://192.168.56.1:3000", "https://main--warm-pudding-613ffe.netlify.app"],
     credentials: true,
   })
 );
