@@ -23,7 +23,7 @@ app.use(
   session({
     secret: 'ABCDEFGHSABSDBHJCS',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
