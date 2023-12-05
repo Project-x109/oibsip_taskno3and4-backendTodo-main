@@ -74,7 +74,7 @@ router.post("/todos/new", async (req, res) => {
             return user._id; // Use the user's ID
           } else {
             res.status(404).json({ error: username + " Not Found" });
-            throw new Error("User not found"); // Throw an error to stop further processing
+            return
           }
         })
       );
