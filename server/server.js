@@ -33,7 +33,7 @@ app.use(
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000","http://192.168.56.1:3000","https://cute-rabanadas-29c5ce.netlify.app"],
+    origin: ["http://localhost:3000","http://192.168.56.1:3000","https://warm-pudding-613ffe.netlify.app/"],
     credentials: true,
   })
 );
