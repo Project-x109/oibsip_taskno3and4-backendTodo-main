@@ -116,10 +116,10 @@ router.post("/login", async (req, res, next) => {
   try {
     console.log("CSRF Token:", req.headers['x-csrf-token']);
     passport.authenticate("local", async (err, user, info) => {
-      if (err) {
+      /* if (err) {
         console.error("Error in login authentication:", err);
         return res.status(500).json({ error: "Internal Server Error" });
-      }
+      } */
       if (info) {
         return res.status(400).json({ error: info.message });
       }
