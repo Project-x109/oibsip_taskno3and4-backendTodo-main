@@ -114,6 +114,7 @@ router.put('/resetpassword/:token', async (req, res) => {
 });
 router.post("/login", async (req, res, next) => {
   try {
+    console.log("CSRF Token:", req.headers['x-csrf-token']);
     passport.authenticate("local", async (err, user, info) => {
       if (err) {
         console.error("Error in login authentication:", err);
