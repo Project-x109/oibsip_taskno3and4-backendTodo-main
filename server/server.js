@@ -51,7 +51,7 @@ app.get('/get-csrf-token', (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
 app.use("/user", userController);
-app.use("/todos", verifyToken, todoController);
+app.use("/todos", todoController);
 app.listen(port, () => {
   connectDatabase();
   console.log(`Server is running on port ${port}`);
