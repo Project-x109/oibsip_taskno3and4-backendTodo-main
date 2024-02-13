@@ -22,7 +22,7 @@ const store = new MongoDBStore({
 });
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://todo-app-mern1236.netlify.app", "https://oibsip-taskno3and4-client-todo.vercel.app/"],
+    origin: ["http://localhost:3000", "https://todo-app-mern1236.netlify.app", "https://oibsip-taskno3and4-client-todo.vercel.app"],
     credentials: true,
   })
 );
