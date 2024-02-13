@@ -34,7 +34,7 @@ app.use(
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://192.168.56.1:3000", "https://warm-pudding-613ffe.netlify.app","https://todo-app-mern1236.netlify.app"],
+    origin: ["http://localhost:3000","https://todo-app-mern1236.netlify.app","https://oibsip-taskno3and4-client-todo.vercel.app/"],
     credentials: true,
   })
 );
