@@ -41,17 +41,35 @@ app.use(
 
 
 app.use(cookieParser());
+
+const csrfProtection = csrf({
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: true,
+    httpOnly: true,
+  },
+  name: "X-CSRF-TOKEN",
+  value: (req) => req.csrfToken(),
+  failAction: (req, res) => {
+    res.status(403).send("Invalid CSRF token");
+  },
+});
+app.use(csrfProtection);
+app.use((req, res, next) => {
+  res.cookie(req.csrfToken());
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(errorHandler);
+app.use("/user", userController);
+app.use("/todos", verifyToken, todoController);
 app.use(logMiddleware);
-app.use(csrf({ cookie: true }));
+app.use(errorHandler);
 app.get('/get-csrf-token', (req, res) => {
   console.log(req.csrfToken())
   res.json({ csrfToken: req.csrfToken() });
 });
-app.use("/user", userController);
-app.use("/todos", verifyToken, todoController);
 app.listen(port, () => {
   connectDatabase();
   console.log(`Server is running on port ${port}`);
