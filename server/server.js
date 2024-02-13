@@ -14,16 +14,23 @@ const port = process.env.PORT || 4000;
 require("dotenv").config({ path: "./server/config/.env" });
 const MongoDBStore = require('connect-mongodb-session')(session);
 const { verifyToken } = require("./config/functions")
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 const store = new MongoDBStore({
   uri: 'mongodb+srv://amanuelgirma108:gondar2022@clusterpizza.lyachjx.mongodb.net/?retryWrites=true&w=majority',
   collection: 'sessions',
 });
 app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://todo-app-mern1236.netlify.app", "https://oibsip-taskno3and4-client-todo.vercel.app/"],
+    credentials: true,
+  })
+);
+app.use(
   session({
     secret: 'ABCDEFGHSABSDBHJCS',
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     store: store,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24,
@@ -31,17 +38,7 @@ app.use(
     },
   })
 );
-app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:3000","https://todo-app-mern1236.netlify.app","https://oibsip-taskno3and4-client-todo.vercel.app/"],
-    credentials: true,
-  })
-);
-
-
 app.use(cookieParser());
-
 const csrfProtection = csrf({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
