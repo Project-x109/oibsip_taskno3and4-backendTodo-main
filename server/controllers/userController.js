@@ -12,9 +12,6 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'YourSuperSecretKeyHere1234567890';
 
 router.post("/register", async (req, res) => {
-  if (!req.csrfToken()) {
-    return res.status(403).json({ error: 'CSRF token verification failed' });
-  }
   try {
     const { username, password, ConfirmPassword } = req.body;
     // Backend validation: Check if username is a valid email
@@ -54,9 +51,6 @@ router.post("/register", async (req, res) => {
   }
 });
 router.post('/resetpassword', async (req, res) => {
-  if (!req.csrfToken()) {
-    return res.status(403).json({ error: 'CSRF token verification failed' });
-  }
   const { username } = req.body;
   const user = await User.findOne({ username });
 
@@ -146,9 +140,6 @@ router.post("/login", async (req, res, next) => {
   }
 });
 router.get('/profile', async (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({ error: 'Not authenticated' });
-  }
   // User is authenticated, return user data
   res.json({ username: req.user.username, id: req.user.id });
 });

@@ -6,7 +6,7 @@ const router = express.Router();
 const { ObjectId } = require('mongodb');
 const sendEmailNotification = require("../config/emailMain");
 router.get("/todos", (req, res) => {
-  if (req.isAuthenticated()) {
+  try {
     Todo.aggregate([
       {
         $match: {
@@ -44,13 +44,12 @@ router.get("/todos", (req, res) => {
         console.error("Error while fetching todos:", err);
         res.status(500).json({ error: "Internal Server Error" });
       });
-  } else {
-    console.error("Unauthorized access");
+  } catch (err) {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
 router.post("/todos/new", async (req, res) => {
-  if (req.isAuthenticated()) {
+  try {
     const { text, priority, dueDate, labels, sharedWith, tags } = req.body;
     const sharedWithUsernames = req.body.sharedWith;
 
@@ -125,7 +124,7 @@ router.post("/todos/new", async (req, res) => {
     } catch (err) {
       res.status(500).json({ error: "Internal Server Error" });
     }
-  } else {
+  } catch (err) {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
@@ -143,7 +142,7 @@ async function userHasDeletePermission(user, todo) {
   return !!permission; // Return true if permission exists
 }
 router.delete("/todos/delete/:id", async (req, res) => {
-  if (req.isAuthenticated()) {
+  try {
     try {
       const todo = await Todo.findOneAndDelete({ _id: req.params.id });
 
@@ -164,12 +163,12 @@ router.delete("/todos/delete/:id", async (req, res) => {
       console.error("Error while deleting todo:", err);
       res.status(500).json({ error: "Internal Server Error" });
     }
-  } else {
+  } catch (err) {
     res.status(401).json({ error: "You cant delete this todo" });
   }
 });
 router.put("/todos/update/:id", async (req, res) => {
-  if (req.isAuthenticated()) {
+  try {
     const todoId = req.params.id;
     const userId = new Object(req.user._id);
     try {
@@ -197,12 +196,12 @@ router.put("/todos/update/:id", async (req, res) => {
       console.error("Error while updating todo status:", err);
       return res.status(500).json({ error: "Internal Server Eror" });
     }
-  } else {
+  } catch (err) {
     return res.status(401).json({ error: "Unauthorized" });
   }
 });
 router.put("/todos/updatetext/:id", (req, res) => {
-  if (req.isAuthenticated()) {
+  try {
     const todoId = req.params.id;
     const userId = req.user._id;
     const newText = req.body.text;
@@ -238,7 +237,7 @@ router.put("/todos/updatetext/:id", (req, res) => {
       .catch((err) => {
         res.status(500).json({ error: "Internal Server Error" });
       });
-  } else {
+  } catch (err) {
     res.status(401).json({ error: "Unauthorized" });
   }
 });
